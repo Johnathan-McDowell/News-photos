@@ -14,12 +14,13 @@ def printImages(date):
     # /v2/top-headlines
     top_headlines = newsapi.get_everything(sources='bbc-news',from_param=date,
                                         to=date)
+    
     json_object = json.dumps(top_headlines) 
     readable_data = json.loads(json_object)
     images = []
     for i in range((len(readable_data['articles']))):
         images.append((readable_data['articles'][i]['urlToImage']))
-    images = random.sample(images,6)
+    images = images[7:13]
     img = []
     img = Image.open(urllib.request.urlopen(images[0]))
     img1 = Image.open(urllib.request.urlopen(images[1]))

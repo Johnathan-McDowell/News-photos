@@ -4,6 +4,7 @@ from datetime import timedelta
 import pandas as pd
 import customtkinter
 from PIL import Image, ImageTk
+import api_test as api
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -50,13 +51,13 @@ class App(customtkinter.CTk):
         for i in range(7):
             dates.append(date.today() - timedelta(days = i))
             day_of_week.append(pd.Timestamp(dates[i]))
-            buttons.append(customtkinter.CTkButton(master=self.frame_1, text= day_of_week[i].day_name(), height=32,compound="right",hover_color="#C77C78", command=self.button_function))
+           
+            buttons.append(customtkinter.CTkButton(master=self.frame_1, text= day_of_week[i].day_name(), height=32,compound="right",hover_color="#C77C78",command =lambda:api.printImages(dates[i])))
             buttons[i].grid(row=i+2, column=0, columnspan=2, padx=20, pady=(10), sticky="ew")
 
+        
     def on_closing(self, event=0):
         self.destroy()
-    def button_function(self):
-        print("button pressed")
 
 
 if __name__ == "__main__":
