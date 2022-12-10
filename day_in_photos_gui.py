@@ -7,6 +7,7 @@ import quotesAPI as quote
 import api_test as api
 from PIL import Image, ImageTk
 import os
+
 PATH = os.path.dirname(os.path.realpath(__file__))
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -17,10 +18,11 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         WIDTH = 480
-        HEIGHT = 600
+        HEIGHT = 700
         self.info= ""
         self.org= ""
         self.text = quote.quotes()
+        self.text1 = quote.day_in_history()
         self.geometry(f"{WIDTH}x{HEIGHT}")
         self.title("Your Week in The News")
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
@@ -35,9 +37,13 @@ class App(customtkinter.CTk):
         self.frame_2.grid(row=8, column=0, padx=20, pady=20, columnspan=2 ,sticky="nsew")
         self.frame_2.grid_columnconfigure(0, weight=1)
         self.frame_2.grid_columnconfigure(1, weight=1)
+        self.frame_3 = customtkinter.CTkFrame(master=self, width=480, height=240, corner_radius=15)
+        self.frame_3.grid(row=9, column=0, padx=20, pady=20, columnspan=2 ,sticky="nsew")
+        self.frame_3.grid_columnconfigure(0, weight=1)
+        self.frame_3.grid_columnconfigure(1, weight=1)
         self.label_1 = customtkinter.CTkLabel(master=self.frame_1,
                                               text="Your Week in Images!",
-                                              text_font=("Roboto Medium", -20))  
+                                              )  
         
         self.label_1.grid(row=1, column=0, pady=20,columnspan=2 ,sticky="new")
         self.label_mode = customtkinter.CTkLabel(master=self.frame_1, text="News Organization:")
@@ -55,11 +61,7 @@ class App(customtkinter.CTk):
         self.entry = customtkinter.CTkEntry(master=self.frame_1,textvariable=strVar)
         self.entry.bind("<Return>",func=lambda event, strVar=strVar: self.obtain(strVar))
         self.entry.grid(row=5, column=3, pady=10, padx=20, sticky="w")
-
-        self.label_mode = customtkinter.CTkLabel(master=self.frame_1, text="Tweet Your Images!")
-        self.label_mode.grid(row=6, column=3, pady=0, padx=20, sticky="w")
-        self.tweet = customtkinter.CTkButton(master=self.frame_1, image=self.logo, text="Twitter", height=32, compound="right")
-        self.tweet.grid(row=7, column=3, padx=20, pady=10, sticky="w")
+       
         
         dates = []
         day_of_week= []
@@ -81,8 +83,10 @@ class App(customtkinter.CTk):
         buttons5.grid(row=7, column=0, columnspan=2, padx=20, pady=(10), sticky="ew")
         buttons6=customtkinter.CTkButton(master=self.frame_1, text= day_of_week[6].day_name(), height=32,compound="right",hover_color="#C77C78",command =lambda:api.printImages(self.org,self.info,dates[6]))
         buttons6.grid(row=8, column=0, columnspan=2, padx=20, pady=(10), sticky="ew")
-        self.quote_text = customtkinter.CTkLabel(master=self.frame_2, text=self.text,wraplength=300, justify="center", text_font=("Roboto Medium", -14))
+        self.quote_text = customtkinter.CTkLabel(master=self.frame_2, text=self.text,wraplength=300, justify="center")
         self.quote_text.grid(row=0, column=0,padx =20,pady =10,sticky="news")
+        self.history_text = customtkinter.CTkLabel(master=self.frame_3,text=self.text1,wraplength=300, justify="center")
+        self.history_text.grid(row=0, column=0,padx =20,pady =10,sticky="news")
         
     def on_closing(self, event=0):
         self.destroy()
@@ -95,4 +99,5 @@ class App(customtkinter.CTk):
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+        
         
