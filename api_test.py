@@ -6,8 +6,12 @@ from PIL import Image,ImageTk
 import numpy as np
 import urllib.request   
 import tkinter.messagebox
+
 def printImages(org,info,date):
+   
+    
     root= tk.Tk()
+    root.title("Your Week in The News")
     # Init
     newsapi = NewsApiClient(api_key='c4560a61b5144991b4d60a735e9f5812')
 
@@ -48,7 +52,10 @@ def printImages(org,info,date):
     except:
         tkinter.messagebox.showinfo("ERROR.",  "Not enough pictures exist for this promp, please enter new values")
     
-
     
     root.mainloop()
+   
+        
+
+   
         
